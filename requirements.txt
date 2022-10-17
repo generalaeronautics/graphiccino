@@ -1,5 +1,4 @@
+dearpygui>=1.6.1
 pymavlink>=2.4.35
-polars>=0.14.15
-pandas
-pyarrow
-matplotlib
+polars>=0.13.25
+pyinstaller
