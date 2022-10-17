@@ -64,19 +64,11 @@ def drop_plotter(sender, app_data, user_data):
         plotable = DF.DFextract(app_data[0])
     if plotable != False:
         if app_data[3]['multi_id'] != None:
-            xaxis_list = ((DF.DFDict[app_data[0]].filter(polars.col("I") == app_data[3]['multi_id'])['TimeUS']) * 
-            (DF.DFcolumn_multiplier[app_data[0]]['TimeUS'])).to_list()
-            if DF.DFcolumn_multiplier[app_data[0]][app_data[1]] == 0:
-                yaxis_list = DF.DFDict[app_data[0]].filter(polars.col("I") == app_data[3]['multi_id'])[app_data[1]].to_list()
-            else:
-                yaxis_list = ((DF.DFDict[app_data[0]].filter(polars.col("I") == app_data[3]['multi_id'])[app_data[1]]) 
-                                        * (DF.DFcolumn_multiplier[app_data[0]][app_data[1]])).to_list()
+            xaxis_list = ((DF.DFDict[app_data[0]].filter(polars.col("I") == app_data[3]['multi_id'])['TimeUS']) * 1e-06).to_list()
+            yaxis_list = DF.DFDict[app_data[0]].filter(polars.col("I") == app_data[3]['multi_id'])[app_data[1]].to_list()
         else:
-            xaxis_list = ((DF.DFDict[app_data[0]]['TimeUS']) * (DF.DFcolumn_multiplier[app_data[0]]['TimeUS'])).to_list()
-            if DF.DFcolumn_multiplier[app_data[0]][app_data[1]] == 0:
-                yaxis_list = DF.DFDict[app_data[0]][app_data[1]].to_list()
-            else:
-                yaxis_list = ((DF.DFDict[app_data[0]][app_data[1]]) * (DF.DFcolumn_multiplier[app_data[0]][app_data[1]])).to_list()
+            xaxis_list = ((DF.DFDict[app_data[0]]['TimeUS']) * 1e-06).to_list()
+            yaxis_list = DF.DFDict[app_data[0]][app_data[1]].to_list()
         dplot = dpg.get_item_info(sender)["children"][1][0]
         dplot_axis = dpg.get_item_user_data(dpg.get_item_info(dplot)['parent'])
         dpg.add_line_series(xaxis_list, yaxis_list, label=f'{app_data[0]} - {app_data[2]}', parent=dplot)
